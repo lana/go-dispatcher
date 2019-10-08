@@ -32,11 +32,12 @@ import (
 )
 
 type User struct {
-	Name string
+	Name  string
 	Email string
 }
 
 var UserWasCreated dispatcher.EventType = "user-was-created"
+
 type UserCreated struct {
 	User User
 }
