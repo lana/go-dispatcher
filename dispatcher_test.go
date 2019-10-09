@@ -29,7 +29,5 @@ func TestDispatcher(t *testing.T) {
 	e := fooEvent{}
 	ctx := context.Background()
 
-	if err := dispatcher.Dispatch(ctx, e); err != nil {
-		t.Fatalf("Dispatch should've executed the listener: %v", err)
-	}
+	dispatcher.Dispatch(ctx, e)
 }

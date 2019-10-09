@@ -32,7 +32,7 @@ type Dispatcher interface {
 	On(EventType, ListenerFunc)
 
 	// Dispatch fires an event of a given type.
-	Dispatch(context.Context, Event) error
+	Dispatch(context.Context, Event)
 }
 
 // listeners is the internal representation of a list of listeners.
@@ -76,10 +76,10 @@ func (d *dispatcher) On(et EventType, l ListenerFunc) {
 }
 
 // Dispatch fires an event of a given type.
-func (d *dispatcher) Dispatch(ctx context.Context, e Event) error {
+func (d *dispatcher) Dispatch(ctx context.Context, e Event) {
 	fns, err := d.listeners.Get(e.Type())
 	if err != nil {
-		return err
+		return // ignore events without listeners
 	}
 
 	var wg sync.WaitGroup
@@ -92,6 +92,4 @@ func (d *dispatcher) Dispatch(ctx context.Context, e Event) error {
 		}()
 	}
 	wg.Wait()
-
-	return nil
 }
