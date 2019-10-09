@@ -3,6 +3,7 @@ package dispatcher
 import (
 	"context"
 	"errors"
+	"regexp"
 	"sync"
 )
 
@@ -40,8 +41,10 @@ type listeners map[EventType][]ListenerFunc
 
 // Get retrieves all listeners from a given EventType.
 func (l listeners) Get(et EventType) ([]ListenerFunc, error) {
-	if fns, ok := l[et]; ok {
-		return fns, nil
+	for i, fns := range l {
+		if ok, _ := regexp.MatchString(i.String(), et.String()); ok {
+			return fns, nil
+		}
 	}
 
 	return nil, ErrListenerNotFound
