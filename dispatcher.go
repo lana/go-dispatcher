@@ -3,6 +3,7 @@ package dispatcher
 import (
 	"context"
 	"errors"
+	"fmt"
 	"regexp"
 	"sync"
 )
@@ -37,61 +38,55 @@ type Dispatcher interface {
 }
 
 // listeners is the internal representation of a list of listeners.
-type listeners map[EventType][]ListenerFunc
+type listeners map[EventType][]*ListenerFunc
 
 // Get retrieves all listeners from a given EventType.
-func (l listeners) Get(et EventType) ([]ListenerFunc, error) {
-	for i, fns := range l {
-		if ok, _ := regexp.MatchString(i.String(), et.String()); ok {
-			return fns, nil
+func (l *listeners) Get(et EventType) []*ListenerFunc {
+	var res []*ListenerFunc
+	for i, fns := range *l {
+		if ok, _ := regexp.MatchString(fmt.Sprintf("^%s$", i.String()), et.String()); ok {
+			res = append(res, fns...)
 		}
 	}
 
-	return nil, ErrListenerNotFound
+	return res
 }
 
 // Add groups listeners by EventType.
-func (l listeners) Add(et EventType, fn ListenerFunc) {
-	fns, err := l.Get(et)
-	if err != nil {
-		fns = make([]ListenerFunc, 0)
-	}
-
+func (l listeners) Add(et EventType, fn *ListenerFunc) {
+	fns := l.Get(et)
 	fns = append(fns, fn)
 	l[et] = fns
 }
 
 // dispatcher is the internal implementation of Dispatcher.
 type dispatcher struct {
-	listeners listeners
+	listeners *listeners
 }
 
 // New creates a new Dispatcher instance.
 func New() Dispatcher {
 	return &dispatcher{
-		listeners: listeners{},
+		listeners: &listeners{},
 	}
 }
 
 // On registers an event listener to events of a given type.
 func (d *dispatcher) On(et EventType, l ListenerFunc) {
-	d.listeners.Add(et, l)
+	d.listeners.Add(et, &l)
 }
 
 // Dispatch fires an event of a given type.
 func (d *dispatcher) Dispatch(ctx context.Context, e Event) {
-	fns, err := d.listeners.Get(e.Type())
-	if err != nil {
-		return // ignore events without listeners
-	}
+	fns := d.listeners.Get(e.Type())
 
 	var wg sync.WaitGroup
 	wg.Add(len(fns))
 	for _, fn := range fns {
+		x := *fn
 		go func() {
-			defer wg.Done()
-
-			fn(ctx, e)
+			x(ctx, e)
+			wg.Done()
 		}()
 	}
 	wg.Wait()

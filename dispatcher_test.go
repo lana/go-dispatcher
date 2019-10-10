@@ -2,9 +2,10 @@ package dispatcher
 
 import (
 	"context"
-	"log"
 	"testing"
 )
+
+var count = 0
 
 type fooEvent struct{}
 
@@ -17,24 +18,32 @@ func (e fooEvent) Data() interface{} {
 }
 
 type fooListener struct {
-	c int
 }
 
 func (l *fooListener) listen(ctx context.Context, e Event) {
-	l.c++
-	log.Printf("%v", e.Data())
+	count++
+}
+
+func l(ctx context.Context, e Event) {
+	// do nothing
 }
 
 func TestDispatcher(t *testing.T) {
-	l := &fooListener{}
+	listener := &fooListener{}
 	dispatcher := New()
-	dispatcher.On("event.*", l.listen)
+	dispatcher.On("*", l)
+	dispatcher.On("event.*", listener.listen)
 
 	e := fooEvent{}
 	ctx := context.Background()
+	runs := 10
+	expected := 10
 
-	dispatcher.Dispatch(ctx, e)
-	if l.c != 1 {
-		t.Error("Event listener must be called once")
+	for i := 0; i < runs; i++ {
+		dispatcher.Dispatch(ctx, e)
+	}
+
+	if count != runs {
+		t.Errorf("Count should be \"%d\", got \"%d\"", expected, count)
 	}
 }
