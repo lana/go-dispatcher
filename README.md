@@ -1,10 +1,10 @@
 # GO Dispatcher
 
-[![Build Status](https://img.shields.io/travis/vsmoraes/go-dispatcher/master.svg?style=flat-square)](https://travis-ci.org/vsmoraes/go-dispatcher)
-[![Codecov branch](https://img.shields.io/codecov/c/github/vsmoraes/go-dispatcher/master.svg?style=flat-square)](https://codecov.io/gh/vsmoraes/go-dispatcher)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/vsmoraes/go-dispatcher)
-[![Go Report Card](https://goreportcard.com/badge/github.com/vsmoraes/go-dispatcher?style=flat-square)](https://goreportcard.com/report/github.com/vsmoraes/go-dispatcher)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://github.com/vsmoraes/go-dispatcher/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/lana/go-dispatcher/master.svg?style=flat-square)](https://travis-ci.org/lana/go-dispatcher)
+[![Codecov branch](https://img.shields.io/codecov/c/github/lana/go-dispatcher/master.svg?style=flat-square)](https://codecov.io/gh/lana/go-dispatcher)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/lana/go-dispatcher)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lana/go-dispatcher?style=flat-square)](https://goreportcard.com/report/github.com/lana/go-dispatcher)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://github.com/lana/go-dispatcher/blob/master/LICENSE)
 
 A simple event dispatcher made in Go.
 
@@ -12,12 +12,12 @@ A simple event dispatcher made in Go.
 
 Use go get.
 ```sh
-$ go get github.com/vsmoraes/go-dispatcher
+$ go get github.com/lana/go-dispatcher
 ```
 
 Then import the package into your own code:
 ```
-import "github.com/vsmoraes/go-dispacher"
+import "github.com/lana/go-dispacher"
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ import (
 	"context"
 	"log"
 	
-	"github.com/vsmoraes/go-dispatcher"
+	"github.com/lana/go-dispatcher"
 )
 
 type User struct {
@@ -66,4 +66,4 @@ func main() {
 
 ## License
 
-This project is released under the MIT licence. See [LICENSE](https://github.com/vsmoraes/go-dispatcher/blob/master/LICENSE) for more details.
+This project is released under the MIT licence. See [LICENSE](https://github.com/lana/go-dispatcher/blob/master/LICENSE) for more details.
