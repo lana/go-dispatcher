@@ -2,14 +2,9 @@ package dispatcher
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"regexp"
 	"sync"
-)
-
-var (
-	ErrListenerNotFound = errors.New("listener not found")
 )
 
 // EventType defines the kind of the dispatched event.
