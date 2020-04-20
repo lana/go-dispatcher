@@ -24,6 +24,7 @@ type Event interface {
 // ListenerFunc is a function that can receive events.
 type ListenerFunc func(context.Context, Event)
 
+// Dispatcher is an event dispatcher.
 type Dispatcher interface {
 	// On registers an event listener to events of a given type.
 	On(EventType, ListenerFunc)
