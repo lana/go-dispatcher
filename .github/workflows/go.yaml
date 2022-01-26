@@ -6,10 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Set up Go 1.14
+    - name: Set up Go 1.17
       uses: actions/setup-go@v1
       with:
-        go-version: 1.14
+        go-version: 1.17
       id: go
 
     - name: Check out code into the Go module directory
@@ -21,7 +21,7 @@ jobs:
       run: git config --global url."https://lana-dev:${TOKEN}@github.com".insteadOf "https://github.com"
 
     - name: Install Linter
-      run: wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.24.0
+      run: wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.44.0
 
     - name: Install dependencies
       env:
